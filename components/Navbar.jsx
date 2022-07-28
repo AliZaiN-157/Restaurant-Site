@@ -1,13 +1,16 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import styles from '../styles/Navbar.module.css'
 import telephone from '../public/img/phone.svg'
 import logo from '../public/img/logo.png'
 import cart from '../public/img/shopping_cart.svg'
 import { useRouter } from 'next/router'
+import { useSelector } from 'react-redux'
 
 
 const Navbar = () => {
 
+  const quantity = useSelector(state => state.cart.quantity)
   const router = useRouter();
 
   return (
@@ -23,21 +26,25 @@ const Navbar = () => {
       </div>
       <div className={styles.item}>
         <ul className={styles.list}>
-          <li className={styles.listItem} onClick={()=> router.push('/')}>Home</li>
-          <li className={styles.listItem} onClick={()=> router.push('/Product/1')}>Products</li>
+          <Link href="/">
+          <li className={styles.listItem}>Home</li>
+          </Link>
+          <li className={styles.listItem}>Products</li>
           <li className={styles.listItem}>Menu</li>
           <Image src={logo} alt=""  height="160px" width="280px"/>
           <li className={styles.listItem}>Events</li>
-          <li className={styles.listItem}onClick={()=> router.push('/about')}>Blog</li>
-          <li className={styles.listItem} onClick={()=> router.push('/contact')} >Contact</li>
+          <li className={styles.listItem}>Blog</li>
+          <li className={styles.listItem}  >Contact</li>
         </ul>
       </div>
+      <Link href="/Cart" passHref>
       <div className={styles.item}>
-        <div className={styles.cart} onClick={()=> router.push('/Cart')}>
+        <div className={styles.cart} >
           <Image src={cart} alt=""  height="30px" width="30px"/>
-          <div className={styles.counter}>2</div>
+          <div className={styles.counter}>{quantity}</div>
           </div>
       </div>
+      </Link>
     </div>
   )
 }
